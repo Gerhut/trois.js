@@ -1,0 +1,36 @@
+{
+  "name": "trois.js",
+  "version": "0.0.0",
+  "description": "Build 3D scene in three.js using vue component syntax.",
+  "main": "dist/trois.js",
+  "scripts": {
+    "lint": "eslint src",
+    "build": "webpack",
+    "debug": "webpack-dev-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gerhut/trois.js.git"
+  },
+  "keywords": [
+    "3D",
+    "three.js",
+    "vue"
+  ],
+  "author": "George Chung <Gerhut@GMail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gerhut/trois.js/issues"
+  },
+  "homepage": "https://github.com/Gerhut/trois.js#readme",
+  "devDependencies": {
+    "babel-core": "^6.3.15",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "eslint": "^1.10.3",
+    "three.js": "^0.73.0",
+    "vue": "^1.0.10",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
+  }
+}
