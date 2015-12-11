@@ -14,11 +14,16 @@ export default props => {
   }
 
   for (let propName of propNames) {
-    mixin.watch[propName] = function (propValue) {
-      const wrapper = props[propName] && props[propName].wrapper
-      this.__trois[propName] = wrapper ? wrapper(propValue) : propValue
-      this.$dispatch('update')
-    }
+    const wrapper = props[propName] && props[propName].wrapper
+    mixin.watch[propName] = wrapper
+      ? function (propValue) {
+        this.__trois[propName] = wrapper(propValue)
+        this.$dispatch('update')
+      }
+      : function (propValue) {
+        this.__trois[propName] = propValue
+        this.$dispatch('update')
+      }
   }
 
   return mixin
