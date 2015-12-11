@@ -66,48 +66,80 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _Scene2 = _interopRequireDefault(_Scene);
 	
-	var _PerspectiveCamera = __webpack_require__(2);
-	
-	var _PerspectiveCamera2 = _interopRequireDefault(_PerspectiveCamera);
-	
-	var _Mesh = __webpack_require__(6);
+	var _Mesh = __webpack_require__(2);
 	
 	var _Mesh2 = _interopRequireDefault(_Mesh);
 	
-	var _BoxGeometry = __webpack_require__(8);
+	var _PerspectiveCamera = __webpack_require__(5);
+	
+	var _PerspectiveCamera2 = _interopRequireDefault(_PerspectiveCamera);
+	
+	var _AmbientLight = __webpack_require__(8);
+	
+	var _AmbientLight2 = _interopRequireDefault(_AmbientLight);
+	
+	var _DirectionalLight = __webpack_require__(10);
+	
+	var _DirectionalLight2 = _interopRequireDefault(_DirectionalLight);
+	
+	var _PointLight = __webpack_require__(11);
+	
+	var _PointLight2 = _interopRequireDefault(_PointLight);
+	
+	var _BoxGeometry = __webpack_require__(12);
 	
 	var _BoxGeometry2 = _interopRequireDefault(_BoxGeometry);
 	
-	var _MeshBasicMaterial = __webpack_require__(10);
+	var _MeshBasicMaterial = __webpack_require__(14);
 	
 	var _MeshBasicMaterial2 = _interopRequireDefault(_MeshBasicMaterial);
 	
-	var _position = __webpack_require__(11);
+	var _MeshLambertMaterial = __webpack_require__(16);
+	
+	var _MeshLambertMaterial2 = _interopRequireDefault(_MeshLambertMaterial);
+	
+	var _MeshPhongMaterial = __webpack_require__(17);
+	
+	var _MeshPhongMaterial2 = _interopRequireDefault(_MeshPhongMaterial);
+	
+	var _position = __webpack_require__(18);
 	
 	var _position2 = _interopRequireDefault(_position);
 	
-	var _rotation = __webpack_require__(13);
+	var _rotation = __webpack_require__(20);
 	
 	var _rotation2 = _interopRequireDefault(_rotation);
 	
-	var _scale = __webpack_require__(14);
+	var _scale = __webpack_require__(21);
 	
 	var _scale2 = _interopRequireDefault(_scale);
+	
+	var _materialCache = __webpack_require__(22);
+	
+	var _materialCache2 = _interopRequireDefault(_materialCache);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var version = exports.version = '0.0.0';
 	
 	function install(Vue, THREE) {
+	
+	  Vue.use(_materialCache2.default);
+	
 	  Vue.component('trois-scene', (0, _Scene2.default)(THREE));
+	  Vue.component('trois-mesh', (0, _Mesh2.default)(THREE));
 	
 	  Vue.component('trois-perspective-camera', (0, _PerspectiveCamera2.default)(THREE));
 	
-	  Vue.component('trois-mesh', (0, _Mesh2.default)(THREE));
+	  Vue.component('trois-ambient-light', (0, _AmbientLight2.default)(THREE));
+	  Vue.component('trois-directional-light', (0, _DirectionalLight2.default)(THREE));
+	  Vue.component('trois-point-light', (0, _PointLight2.default)(THREE));
 	
 	  Vue.component('trois-box-geometry', (0, _BoxGeometry2.default)(THREE));
 	
 	  Vue.component('trois-mesh-basic-material', (0, _MeshBasicMaterial2.default)(THREE));
+	  Vue.component('trois-mesh-lambert-material', (0, _MeshLambertMaterial2.default)(THREE));
+	  Vue.component('trois-mesh-phong-material', (0, _MeshPhongMaterial2.default)(THREE));
 	
 	  Vue.component('trois-position', _position2.default);
 	  Vue.component('trois-rotation', _rotation2.default);
@@ -129,6 +161,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var WebGLRenderer = _ref.WebGLRenderer;
 	  return {
 	    template: '<canvas><slot></slot></canvas>',
+	    data: function data() {
+	      return {
+	        realWidth: 0,
+	        realHeight: 0
+	      };
+	    },
+	    props: {
+	      width: {
+	        type: Number,
+	        default: 640
+	      },
+	      height: {
+	        type: Number,
+	        default: 480
+	      }
+	    },
 	    beforeCompile: function beforeCompile() {
 	      this.__trois = new Scene();
 	      this.__troisRenderer = new WebGLRenderer({
@@ -136,6 +184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	    },
 	    attached: function attached() {
+	      this.setSize();
 	      this.__troisWillRender = false;
 	      this.render();
 	    },
@@ -151,7 +200,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            _this.__troisWillRender = false;
 	          });
 	        }
+	      },
+	      setSize: function setSize() {
+	        this.__troisRenderer.setSize(this.width, this.height);
 	      }
+	    },
+	    watch: {
+	      width: 'setSize',
+	      height: 'setSize'
 	    },
 	    events: {
 	      update: 'render'
@@ -173,42 +229,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _member = __webpack_require__(4);
+	var _children = __webpack_require__(4);
 	
-	var _member2 = _interopRequireDefault(_member);
-	
-	var _props = __webpack_require__(5);
-	
-	var _props2 = _interopRequireDefault(_props);
+	var _children2 = _interopRequireDefault(_children);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var PerspectiveCamera = _ref.PerspectiveCamera;
+	  var Mesh = _ref.Mesh;
 	  return {
-	    mixins: [_trois2.default, (0, _member2.default)(function () {
-	      return new PerspectiveCamera();
-	    }, '__troisCamera'), (0, _props2.default)({
-	      fov: Number,
-	      near: Number,
-	      aspect: Number,
-	      far: Number
-	    })],
-	    compiled: function compiled() {
-	      this.updateProjectionMatrix();
-	    },
-	
-	    methods: {
-	      updateProjectionMatrix: function updateProjectionMatrix() {
-	        this.__trois.updateProjectionMatrix();
-	      }
-	    },
-	    watch: {
-	      fov: 'updateProjectionMatrix',
-	      near: 'updateProjectionMatrix',
-	      aspect: 'updateProjectionMatrix',
-	      far: 'updateProjectionMatrix'
-	    }
+	    mixins: [_trois2.default, (0, _children2.default)(function () {
+	      return new Mesh();
+	    })]
 	  };
 	};
 
@@ -228,6 +260,97 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	exports.default = function (factory) {
+	  return {
+	    beforeCompile: function beforeCompile() {
+	      this.__trois = factory();
+	    },
+	    compiled: function compiled() {
+	      this.$parent.__trois.add(this.__trois);
+	      this.$dispatch('update');
+	    },
+	    beforeDestroy: function beforeDestroy() {
+	      this.$parent.__trois.remove(this.__trois);
+	      this.$dispatch('update');
+	    },
+	    destroyed: function destroyed() {
+	      this.__trois = null;
+	    }
+	  };
+	};
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _member = __webpack_require__(6);
+	
+	var _member2 = _interopRequireDefault(_member);
+	
+	var _props = __webpack_require__(7);
+	
+	var _props2 = _interopRequireDefault(_props);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var PerspectiveCamera = _ref.PerspectiveCamera;
+	  return {
+	    mixins: [_trois2.default, (0, _member2.default)(function () {
+	      return new PerspectiveCamera();
+	    }, '__troisCamera'), (0, _props2.default)({
+	      fov: Number,
+	      near: Number,
+	      far: Number
+	    })],
+	    compiled: function compiled() {
+	      this.setAspect(this.aspect);
+	    },
+	
+	    computed: {
+	      aspect: function aspect() {
+	        return this.$parent.width / this.$parent.height;
+	      }
+	    },
+	    methods: {
+	      setAspect: function setAspect(aspect) {
+	        this.__trois.aspect = aspect;
+	        this.updateProjectionMatrix();
+	      },
+	      updateProjectionMatrix: function updateProjectionMatrix() {
+	        this.__trois.updateProjectionMatrix();
+	        this.$dispatch('update');
+	      }
+	    },
+	    watch: {
+	      fov: 'updateProjectionMatrix',
+	      near: 'updateProjectionMatrix',
+	      far: 'updateProjectionMatrix',
+	      aspect: 'setAspect'
+	    }
+	  };
+	};
+
+/***/ },
+/* 6 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -254,7 +377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 5 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -274,14 +397,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      propNames.forEach(function (propName) {
 	        var propValue = _this[propName];
-	        var wrapper = props[propName] && props[propName].wrapper;
-	        _this.__trois[propName] = wrapper ? wrapper(propValue) : propValue;
+	        if (propValue != null) {
+	          var wrapper = props[propName] && props[propName].__troisWrapper;
+	          _this.__trois[propName] = wrapper ? wrapper(propValue) : propValue;
+	        }
 	      });
 	    }
 	  };
 	
 	  propNames.forEach(function (propName) {
-	    var wrapper = props[propName] && props[propName].wrapper;
+	    var wrapper = props[propName] && props[propName].__troisWrapper;
 	    mixin.watch[propName] = wrapper ? function (propValue) {
 	      this.__trois[propName] = wrapper(propValue);
 	      this.$dispatch('update');
@@ -292,62 +417,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	
 	  return mixin;
-	};
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _trois = __webpack_require__(3);
-	
-	var _trois2 = _interopRequireDefault(_trois);
-	
-	var _children = __webpack_require__(7);
-	
-	var _children2 = _interopRequireDefault(_children);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = function (_ref) {
-	  var Mesh = _ref.Mesh;
-	  return {
-	    mixins: [_trois2.default, (0, _children2.default)(function () {
-	      return new Mesh();
-	    })]
-	  };
-	};
-
-/***/ },
-/* 7 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports.default = function (factory) {
-	  return {
-	    beforeCompile: function beforeCompile() {
-	      this.__trois = factory();
-	    },
-	    compiled: function compiled() {
-	      this.$parent.__trois.add(this.__trois);
-	    },
-	    beforeDestroy: function beforeDestroy() {
-	      this.$parent.__trois.remove(this.__trois);
-	    },
-	    destroyed: function destroyed() {
-	      this.__trois = null;
-	    }
-	  };
 	};
 
 /***/ },
@@ -364,22 +433,33 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _member = __webpack_require__(4);
+	var _children = __webpack_require__(4);
 	
-	var _member2 = _interopRequireDefault(_member);
+	var _children2 = _interopRequireDefault(_children);
 	
-	var _dispose = __webpack_require__(9);
+	var _props = __webpack_require__(7);
 	
-	var _dispose2 = _interopRequireDefault(_dispose);
+	var _props2 = _interopRequireDefault(_props);
+	
+	var _light = __webpack_require__(9);
+	
+	var _light2 = _interopRequireDefault(_light);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var BoxGeometry = _ref.BoxGeometry;
+	  var AmbientLight = _ref.AmbientLight;
+	  var Color = _ref.Color;
 	  return {
-	    mixins: [_trois2.default, (0, _member2.default)(function () {
-	      return new BoxGeometry(1, 1, 1);
-	    }, 'geometry'), _dispose2.default]
+	    mixins: [_trois2.default, (0, _children2.default)(function () {
+	      return new AmbientLight();
+	    }), (0, _props2.default)({
+	      color: {
+	        __troisWrapper: function __troisWrapper(color) {
+	          return new Color(color);
+	        }
+	      }
+	    }), _light2.default]
 	  };
 	};
 
@@ -393,8 +473,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 	exports.default = {
+	  compiled: function compiled() {
+	    this.__troisMaterialCacheUpdate();
+	  },
 	  beforeDestroy: function beforeDestroy() {
-	    this.__trois.dispose();
+	    this.__troisMaterialCacheUpdate();
 	  }
 	};
 
@@ -412,33 +495,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _member = __webpack_require__(4);
+	var _children = __webpack_require__(4);
 	
-	var _member2 = _interopRequireDefault(_member);
+	var _children2 = _interopRequireDefault(_children);
 	
-	var _props = __webpack_require__(5);
+	var _props = __webpack_require__(7);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
-	var _dispose = __webpack_require__(9);
+	var _light = __webpack_require__(9);
 	
-	var _dispose2 = _interopRequireDefault(_dispose);
+	var _light2 = _interopRequireDefault(_light);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var MeshBasicMaterial = _ref.MeshBasicMaterial;
+	  var DirectionalLight = _ref.DirectionalLight;
 	  var Color = _ref.Color;
 	  return {
-	    mixins: [_trois2.default, (0, _member2.default)(function () {
-	      return new MeshBasicMaterial();
-	    }, 'material'), (0, _props2.default)({
+	    mixins: [_trois2.default, (0, _children2.default)(function () {
+	      return new DirectionalLight();
+	    }), (0, _props2.default)({
 	      color: {
-	        wrapper: function wrapper(color) {
+	        __troisWrapper: function __troisWrapper(color) {
 	          return new Color(color);
 	        }
-	      }
-	    }), _dispose2.default]
+	      },
+	      intensity: Number
+	    }), _light2.default]
 	  };
 	};
 
@@ -456,11 +540,268 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _value = __webpack_require__(12);
+	var _children = __webpack_require__(4);
+	
+	var _children2 = _interopRequireDefault(_children);
+	
+	var _props = __webpack_require__(7);
+	
+	var _props2 = _interopRequireDefault(_props);
+	
+	var _light = __webpack_require__(9);
+	
+	var _light2 = _interopRequireDefault(_light);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var PointLight = _ref.PointLight;
+	  var Color = _ref.Color;
+	  return {
+	    mixins: [_trois2.default, (0, _children2.default)(function () {
+	      return new PointLight();
+	    }), (0, _props2.default)({
+	      color: {
+	        __troisWrapper: function __troisWrapper(color) {
+	          return new Color(color);
+	        }
+	      },
+	      intensity: Number,
+	      distance: Number,
+	      decay: Number
+	    }), _light2.default]
+	  };
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _member = __webpack_require__(6);
+	
+	var _member2 = _interopRequireDefault(_member);
+	
+	var _dispose = __webpack_require__(13);
+	
+	var _dispose2 = _interopRequireDefault(_dispose);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var BoxGeometry = _ref.BoxGeometry;
+	  return {
+	    mixins: [_trois2.default, (0, _member2.default)(function () {
+	      return new BoxGeometry(1, 1, 1);
+	    }, 'geometry'), _dispose2.default]
+	  };
+	};
+
+/***/ },
+/* 13 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  beforeDestroy: function beforeDestroy() {
+	    this.__trois.dispose();
+	  }
+	};
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _member = __webpack_require__(6);
+	
+	var _member2 = _interopRequireDefault(_member);
+	
+	var _props = __webpack_require__(7);
+	
+	var _props2 = _interopRequireDefault(_props);
+	
+	var _dispose = __webpack_require__(13);
+	
+	var _dispose2 = _interopRequireDefault(_dispose);
+	
+	var _material = __webpack_require__(15);
+	
+	var _material2 = _interopRequireDefault(_material);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var MeshBasicMaterial = _ref.MeshBasicMaterial;
+	  var Color = _ref.Color;
+	  return {
+	    mixins: [_trois2.default, (0, _member2.default)(function () {
+	      return new MeshBasicMaterial();
+	    }, 'material'), (0, _props2.default)({
+	      color: {
+	        __troisWrapper: function __troisWrapper(color) {
+	          return new Color(color);
+	        }
+	      }
+	    }), _dispose2.default, _material2.default]
+	  };
+	};
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = {
+	  compiled: function compiled() {
+	    this.__troisMaterialCacheAdd();
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    this.__troisMaterialCacheRemove();
+	  }
+	};
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _member = __webpack_require__(6);
+	
+	var _member2 = _interopRequireDefault(_member);
+	
+	var _props = __webpack_require__(7);
+	
+	var _props2 = _interopRequireDefault(_props);
+	
+	var _dispose = __webpack_require__(13);
+	
+	var _dispose2 = _interopRequireDefault(_dispose);
+	
+	var _material = __webpack_require__(15);
+	
+	var _material2 = _interopRequireDefault(_material);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var MeshLambertMaterial = _ref.MeshLambertMaterial;
+	  var Color = _ref.Color;
+	  return {
+	    mixins: [_trois2.default, (0, _member2.default)(function () {
+	      return new MeshLambertMaterial();
+	    }, 'material'), (0, _props2.default)({
+	      color: {
+	        __troisWrapper: function __troisWrapper(color) {
+	          return new Color(color);
+	        }
+	      }
+	    }), _dispose2.default, _material2.default]
+	  };
+	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _member = __webpack_require__(6);
+	
+	var _member2 = _interopRequireDefault(_member);
+	
+	var _props = __webpack_require__(7);
+	
+	var _props2 = _interopRequireDefault(_props);
+	
+	var _dispose = __webpack_require__(13);
+	
+	var _dispose2 = _interopRequireDefault(_dispose);
+	
+	var _material = __webpack_require__(15);
+	
+	var _material2 = _interopRequireDefault(_material);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (_ref) {
+	  var MeshPhongMaterial = _ref.MeshPhongMaterial;
+	  var Color = _ref.Color;
+	  return {
+	    mixins: [_trois2.default, (0, _member2.default)(function () {
+	      return new MeshPhongMaterial();
+	    }, 'material'), (0, _props2.default)({
+	      color: {
+	        __troisWrapper: function __troisWrapper(color) {
+	          return new Color(color);
+	        }
+	      }
+	    }), _dispose2.default, _material2.default]
+	  };
+	};
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _trois = __webpack_require__(3);
+	
+	var _trois2 = _interopRequireDefault(_trois);
+	
+	var _value = __webpack_require__(19);
 	
 	var _value2 = _interopRequireDefault(_value);
 	
-	var _props = __webpack_require__(5);
+	var _props = __webpack_require__(7);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
@@ -475,7 +816,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 12 */
+/* 19 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -496,7 +837,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 13 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -509,11 +850,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _value = __webpack_require__(12);
+	var _value = __webpack_require__(19);
 	
 	var _value2 = _interopRequireDefault(_value);
 	
-	var _props = __webpack_require__(5);
+	var _props = __webpack_require__(7);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
@@ -521,15 +862,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.default = {
 	  mixins: [_trois2.default, (0, _value2.default)('rotation'), (0, _props2.default)({
-	    x: Number,
-	    y: Number,
-	    z: Number,
+	    x: {
+	      type: Number,
+	      __troisWrapper: function __troisWrapper(rad) {
+	        return rad / 180 * Math.PI;
+	      }
+	    },
+	    y: {
+	      type: Number,
+	      __troisWrapper: function __troisWrapper(rad) {
+	        return rad / 180 * Math.PI;
+	      }
+	    },
+	    z: {
+	      type: Number,
+	      __troisWrapper: function __troisWrapper(rad) {
+	        return rad / 180 * Math.PI;
+	      }
+	    },
 	    order: String
 	  })]
 	};
 
 /***/ },
-/* 14 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -542,11 +898,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _trois2 = _interopRequireDefault(_trois);
 	
-	var _value = __webpack_require__(12);
+	var _value = __webpack_require__(19);
 	
 	var _value2 = _interopRequireDefault(_value);
 	
-	var _props = __webpack_require__(5);
+	var _props = __webpack_require__(7);
 	
 	var _props2 = _interopRequireDefault(_props);
 	
@@ -558,6 +914,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    y: Number,
 	    z: Number
 	  })]
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.default = {
+	    install: function install(Vue) {
+	        Object.assign(Vue.prototype, {
+	            __troisMaterialCache: {},
+	            __troisMaterialCacheAdd: function __troisMaterialCacheAdd() {
+	                this.__troisMaterialCache[this._uid] = this;
+	            },
+	            __troisMaterialCacheRemove: function __troisMaterialCacheRemove() {
+	                delete this.__troisMaterialCache[this._uid];
+	            },
+	            __troisMaterialCacheUpdate: function __troisMaterialCacheUpdate() {
+	                for (var uid in this.__troisMaterialCache) {
+	                    this.__troisMaterialCache[uid].__trois.needsUpdate = true;
+	                }
+	            }
+	        });
+	    }
 	};
 
 /***/ }

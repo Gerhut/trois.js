@@ -5,7 +5,7 @@
   "main": "dist/trois.js",
   "scripts": {
     "lint": "eslint src",
-    "fix": "eslint --help",
+    "fix": "eslint src --fix",
     "build": "webpack",
     "debug": "webpack-dev-server"
   },

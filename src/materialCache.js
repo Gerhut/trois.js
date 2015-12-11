@@ -1,3 +1,3 @@
 export default function (Vue) {
-    Vue.prototype.__troisMaterialCache = []
+  Vue.prototype.__troisMaterialCache = []
 }
