@@ -1,12 +1,11 @@
 import troisMixin from '../../mixins/trois'
-import valueMixin from '../../mixins/value'
-import propsMixin from '../../mixins/props'
+import valuesMixin from '../../mixins/values'
 
 export default {
+  name: 'scale',
   mixins: [
     troisMixin,
-    valueMixin('scale'),
-    propsMixin({
+    valuesMixin('scale', {
       x: Number,
       y: Number,
       z: Number

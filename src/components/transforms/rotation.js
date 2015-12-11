@@ -1,12 +1,10 @@
 import troisMixin from '../../mixins/trois'
-import valueMixin from '../../mixins/value'
-import propsMixin from '../../mixins/props'
+import valuesMixin from '../../mixins/values'
 
 export default {
   mixins: [
     troisMixin,
-    valueMixin('rotation'),
-    propsMixin({
+    valuesMixin('rotation', {
       x: {
         type: Number,
         _troisTransformer: rad => rad / 180 * Math.PI
