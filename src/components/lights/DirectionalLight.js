@@ -12,7 +12,7 @@ export default ({
     childrenMixin(() => new DirectionalLight()),
     propsMixin({
       color: {
-        __troisWrapper: color => new Color(color)
+        _troisTransformer: color => new Color(color)
       },
       intensity: Number
     }),

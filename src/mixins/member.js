@@ -1,14 +1,14 @@
 export default (factory, propName) => ({
   beforeCompile () {
-    this.__trois = factory()
+    this.$trois = factory()
   },
   attached () {
-    this.$parent.__trois[propName] = this.__trois
+    this.$parent.$trois[propName] = this.$trois
   },
   detached () {
-    this.$parent.__trois[propName] = null
+    this.$parent.$trois[propName] = null
   },
   destroyed () {
-    this.__trois = null
+    this.$trois = null
   }
 })

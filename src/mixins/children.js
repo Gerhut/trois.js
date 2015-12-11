@@ -1,16 +1,16 @@
 export default factory => ({
   beforeCompile () {
-    this.__trois = factory()
+    this.$trois = factory()
   },
   attached () {
-    this.$parent.__trois.add(this.__trois)
+    this.$parent.$trois.add(this.$trois)
     this.$dispatch('update')
   },
   detached () {
-    this.$parent.__trois.remove(this.__trois)
+    this.$parent.$trois.remove(this.$trois)
     this.$dispatch('update')
   },
   destroyed () {
-    this.__trois = null
+    this.$trois = null
   }
 })

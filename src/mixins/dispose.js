@@ -1,5 +1,5 @@
 export default {
   beforeDestroy () {
-    this.__trois.dispose()
+    this.$trois.dispose()
   }
 }

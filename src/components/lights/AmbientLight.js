@@ -12,7 +12,7 @@ export default ({
     childrenMixin(() => new AmbientLight()),
     propsMixin({
       color: {
-        __troisWrapper: color => new Color(color)
+        _troisTransformer: color => new Color(color)
       }
     }),
     lightMixin

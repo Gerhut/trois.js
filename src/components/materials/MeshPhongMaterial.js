@@ -13,7 +13,7 @@ export default ({
     memberMixin(() => new MeshPhongMaterial(), 'material'),
     propsMixin({
       color: {
-        __troisWrapper: color => new Color(color)
+        _troisTransformer: color => new Color(color)
       }
     }),
     disposeMixin,

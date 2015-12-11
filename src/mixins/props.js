@@ -8,22 +8,22 @@ export default props => {
       propNames.forEach(propName => {
         const propValue = this[propName]
         if (propValue != null) {
-          const wrapper = props[propName] && props[propName].__troisWrapper
-          this.__trois[propName] = wrapper ? wrapper(propValue) : propValue
+          const wrapper = props[propName] && props[propName]._troisTransformer
+          this.$trois[propName] = wrapper ? wrapper(propValue) : propValue
         }
       })
     }
   }
 
   propNames.forEach(propName => {
-    const wrapper = props[propName] && props[propName].__troisWrapper
+    const wrapper = props[propName] && props[propName]._troisTransformer
     mixin.watch[propName] = wrapper
       ? function (propValue) {
-        this.__trois[propName] = wrapper(propValue)
+        this.$trois[propName] = wrapper(propValue)
         this.$dispatch('update')
       }
       : function (propValue) {
-        this.__trois[propName] = propValue
+        this.$trois[propName] = propValue
         this.$dispatch('update')
       }
   })

@@ -1,8 +1,8 @@
 export default {
   compiled () {
-    this.__troisMaterialCacheAdd()
+    this._troisMaterialCacheAdd()
   },
   beforeDestroy () {
-    this.__troisMaterialCacheRemove()
+    this._troisMaterialCacheRemove()
   }
 }

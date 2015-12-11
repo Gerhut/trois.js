@@ -1,8 +1,8 @@
 export default {
   ready () {
-    this.__troisMaterialCacheUpdate()
+    this._troisMaterialCacheUpdate()
   },
   beforeDestroy () {
-    this.__troisMaterialCacheUpdate()
+    this._troisMaterialCacheUpdate()
   }
 }

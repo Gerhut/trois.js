@@ -1,8 +1,8 @@
 export default propName => ({
   beforeCompile () {
-    this.__trois = this.$parent.__trois[propName]
+    this.$trois = this.$parent.$trois[propName]
   },
   destroyed () {
-    this.__trois = null
+    this.$trois = null
   }
 })

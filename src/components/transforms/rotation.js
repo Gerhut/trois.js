@@ -9,15 +9,15 @@ export default {
     propsMixin({
       x: {
         type: Number,
-        __troisWrapper: rad => rad / 180 * Math.PI
+        _troisTransformer: rad => rad / 180 * Math.PI
       },
       y: {
         type: Number,
-        __troisWrapper: rad => rad / 180 * Math.PI
+        _troisTransformer: rad => rad / 180 * Math.PI
       },
       z: {
         type: Number,
-        __troisWrapper: rad => rad / 180 * Math.PI
+        _troisTransformer: rad => rad / 180 * Math.PI
       },
       order: String
     })

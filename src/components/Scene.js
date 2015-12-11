@@ -18,28 +18,28 @@ export default ({
     }
   },
   beforeCompile () {
-    this.__trois = new Scene()
-    this.__troisRenderer = new WebGLRenderer({
+    this.$trois = new Scene()
+    this.$troisRenderer = new WebGLRenderer({
       canvas: this.$el
     })
   },
   attached () {
     this.setSize()
-    this.__troisWillRender = false
+    this._troisWillRender = false
     this.render()
   },
   methods: {
     render () {
-      if (!this.__troisWillRender) {
-        this.__troisWillRender = true
+      if (!this._troisWillRender) {
+        this._troisWillRender = true
         this.$nextTick(() => {
-          this.__troisRenderer.render(this.__trois, this.__trois.__troisCamera)
-          this.__troisWillRender = false
+          this.$troisRenderer.render(this.$trois, this.$trois.$troisCamera)
+          this._troisWillRender = false
         })
       }
     },
     setSize () {
-      this.__troisRenderer.setSize(this.width, this.height)
+      this.$troisRenderer.setSize(this.width, this.height)
     }
   },
   watch: {

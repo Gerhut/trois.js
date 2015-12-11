@@ -12,7 +12,7 @@ export default ({
     childrenMixin(() => new PointLight()),
     propsMixin({
       color: {
-        __troisWrapper: color => new Color(color)
+        _troisTransformer: color => new Color(color)
       },
       intensity: Number,
       distance: Number,

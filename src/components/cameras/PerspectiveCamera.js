@@ -7,7 +7,7 @@ export default ({
 }) => ({
   mixins: [
     troisMixin,
-    memberMixin(() => new PerspectiveCamera(), '__troisCamera'),
+    memberMixin(() => new PerspectiveCamera(), '$troisCamera'),
     propsMixin({
       fov: Number,
       near: Number,
@@ -24,11 +24,11 @@ export default ({
   },
   methods: {
     setAspect (aspect) {
-      this.__trois.aspect = aspect
+      this.$trois.aspect = aspect
       this.updateProjectionMatrix()
     },
     updateProjectionMatrix () {
-      this.__trois.updateProjectionMatrix()
+      this.$trois.updateProjectionMatrix()
       this.$dispatch('update')
     }
   },
