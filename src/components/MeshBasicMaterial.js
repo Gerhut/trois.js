@@ -9,7 +9,7 @@ export default ({
 }) => ({
   mixins: [
     troisMixin,
-    memberMixin(() => new MeshBasicMaterial, 'material'),
+    memberMixin(() => new MeshBasicMaterial(), 'material'),
     propsMixin({
       color: {
         wrapper: color => new Color(color)

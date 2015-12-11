@@ -10,25 +10,21 @@ export default ({
     })
   },
   attached () {
-    var render= () =>{
-      requestAnimationFrame( render );
-      this.__troisRenderer.render(this.__trois, this.__trois.__troisCamera)
-    }
-    render();
+    this.__troisWillRender = false
+    this.render()
   },
   methods: {
     render () {
       if (!this.__troisWillRender) {
         this.__troisWillRender = true
         this.$nextTick(() => {
-          console.info('render', this.__trois, this.__trois.__troisCamera)
           this.__troisRenderer.render(this.__trois, this.__trois.__troisCamera)
-          this.__trois.willRender = false
+          this.__troisWillRender = false
         })
       }
     }
   },
   events: {
-    //update: 'render'
+    update: 'render'
   }
 })

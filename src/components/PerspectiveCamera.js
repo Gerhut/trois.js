@@ -7,7 +7,7 @@ export default ({
 }) => ({
   mixins: [
     troisMixin,
-    memberMixin(() => new PerspectiveCamera, '__troisCamera'),
+    memberMixin(() => new PerspectiveCamera(), '__troisCamera'),
     propsMixin({
       fov: Number,
       near: Number,
