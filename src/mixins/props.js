@@ -4,7 +4,7 @@ export default props => {
   const mixin = {
     props,
     watch: {},
-    beforeCompile () {
+    compiled () {
       propNames.forEach(propName => {
         const propValue = this[propName]
         if (propValue != null) {

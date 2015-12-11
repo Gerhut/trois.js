@@ -1,5 +1,5 @@
 export default {
-  compiled () {
+  ready () {
     this.__troisMaterialCacheUpdate()
   },
   beforeDestroy () {

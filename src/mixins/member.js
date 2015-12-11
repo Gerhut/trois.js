@@ -2,10 +2,10 @@ export default (factory, propName) => ({
   beforeCompile () {
     this.__trois = factory()
   },
-  compiled () {
+  attached () {
     this.$parent.__trois[propName] = this.__trois
   },
-  beforeDestroy () {
+  detached () {
     this.$parent.__trois[propName] = null
   },
   destroyed () {
