@@ -32,11 +32,11 @@ export function install (Vue, {
 
     case true:
       prefix = 'trois-'
-    break
+      break
 
     case false:
       prefix = ''
-    break
+      break
 
     default:
       if (prefix[prefix.length - 1] !== '-') {

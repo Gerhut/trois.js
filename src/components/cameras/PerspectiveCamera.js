@@ -1,4 +1,5 @@
 import troisMixin from '../../mixins/trois'
+import constructorMixin from '../../mixins/constructor'
 import memberMixin from '../../mixins/member'
 import propsMixin from '../../mixins/props'
 
@@ -8,7 +9,8 @@ export default ({
   name: 'PerspectiveCamera',
   mixins: [
     troisMixin,
-    memberMixin(() => new PerspectiveCamera(), '$troisCamera'),
+    constructorMixin(PerspectiveCamera),
+    memberMixin('$troisCamera'),
     propsMixin({
       fov: Number,
       near: Number,

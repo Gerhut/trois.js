@@ -1,4 +1,5 @@
 import troisMixin from '../../mixins/trois'
+import constructorMixin from '../../mixins/constructor'
 import childrenMixin from '../../mixins/children'
 import propsMixin from '../../mixins/props'
 import lightMixin from '../../mixins/light'
@@ -10,7 +11,8 @@ export default ({
   name: 'PointLight',
   mixins: [
     troisMixin,
-    childrenMixin(() => new PointLight()),
+    constructorMixin(PointLight),
+    childrenMixin,
     propsMixin({
       color: {
         _troisTransformer: color => new Color(color)

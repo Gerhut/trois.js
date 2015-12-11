@@ -1,7 +1,4 @@
-export default factory => ({
-  beforeCompile () {
-    this.$trois = factory()
-  },
+export default {
   attached () {
     this.$parent.$trois.add(this.$trois)
     this.$dispatch('update')
@@ -10,7 +7,10 @@ export default factory => ({
     this.$parent.$trois.remove(this.$trois)
     this.$dispatch('update')
   },
-  destroyed () {
-    this.$trois = null
+  events: {
+    replace (oldTrois) {
+      this.$parent.$trois.remove(oldTrois)
+      this.$parent.$troid.add(this.$trois)
+    }
   }
-})
+}

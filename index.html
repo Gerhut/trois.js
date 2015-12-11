@@ -14,13 +14,16 @@
             <position :x="light.pos[0]" :y="light.pos[1]" :z="light.pos[2]"></position>
         </point-light>
         <mesh>
-            <box-geometry :width="1" :height="1" :depth="1"></box-geometry>
+            <box-geometry :width="size" :height="size" :depth="size"></box-geometry>
             <mesh-phong-material color="white"></mesh-phong-material>
             <rotation :z="45" :x="45" :y="rotation" order="YXZ"></rotation>
         </mesh>
     </scene>
     <p>
         <label v-for="light in lights"><input type="checkbox" v-model="light.display"><span>{{light.color}} light</span></label>
+    </p>
+    <p>
+        <label>Size: <input type="number" v-model="size" number></label>
     </p>
     <script src="node_modules/vue/dist/vue.js"></script>
     <script> if (typeof Vue == 'undefined') document.write('<script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.11/vue.js"></' + 'script>') </script>
@@ -38,14 +41,15 @@
             el: document.body,
             data: {
                 rotation: 0,
+                size: 1,
                 lights: [{
-                    color: 'red', pos: [0, 2, 0], display: true
+                    color: 'red', pos: [0, 5, 0], display: true
                 }, {
-                    color: 'green', pos: [0, -2, 0], display: false
+                    color: 'green', pos: [0, -5, 0], display: false
                 }, {
-                    color: 'blue', pos: [2, 0, 0], display: false
+                    color: 'blue', pos: [5, 0, 0], display: false
                 }, {
-                    color: 'yellow', pos: [-2, 0, 0], display: false
+                    color: 'yellow', pos: [-5, 0, 0], display: false
                 }]
             },
             ready: function () {

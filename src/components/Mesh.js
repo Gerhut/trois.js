@@ -1,4 +1,5 @@
 import troisMixin from '../mixins/trois'
+import constructorMixin from '../mixins/constructor'
 import childrenMixin from '../mixins/children'
 
 export default ({
@@ -7,6 +8,7 @@ export default ({
   name: 'Mesh',
   mixins: [
     troisMixin,
-    childrenMixin(() => new Mesh())
+    constructorMixin(Mesh),
+    childrenMixin
   ]
 })

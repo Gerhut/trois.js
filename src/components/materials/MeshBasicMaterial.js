@@ -1,4 +1,5 @@
 import troisMixin from '../../mixins/trois'
+import constructorMixin from '../../mixins/constructor'
 import memberMixin from '../../mixins/member'
 import propsMixin from '../../mixins/props'
 import disposeMixin from '../../mixins/dispose'
@@ -11,7 +12,8 @@ export default ({
   name: 'MeshBasicMaterial',
   mixins: [
     troisMixin,
-    memberMixin(() => new MeshBasicMaterial(), 'material'),
+    constructorMixin(MeshBasicMaterial),
+    memberMixin('material'),
     propsMixin({
       color: {
         _troisTransformer: color => new Color(color)
