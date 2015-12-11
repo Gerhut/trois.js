@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <trois-scene camera="camera">
-        <trois-perspective-camera v-ref:camera :fov="75" :near="0.1" :far="1000">
-            <trois-position :x="0" :y="0" :z="10"></trois-position>
+    <trois-scene>
+        <trois-perspective-camera :fov="75" :aspect="1" :near="0.1" :far="1000">
+            <trois-position :x="0" :y="0" :z="5"></trois-position>
         </trois-perspective-camera>
         <trois-mesh>
             <trois-box-geometry :width="1" :height="1" :depth="1"></trois-box-geometry>
-            <trois-mesh-basic-material :color="0x00ff00"></trois-mesh-basic-material>
+            <trois-mesh-basic-material color="#00FF00"></trois-mesh-basic-material>
             <trois-position :x="x" :y="y" :z="z"></trois-position>
         </trois-mesh>
     </trois-scene>
-    <input type="number" v-model="x">
-    <input type="number" v-model="y">
-    <input type="number" v-model="z">
+    <input type="number" v-model="x" number>
+    <input type="number" v-model="y" number>
+    <input type="number" v-model="z" number>
     <script src="node_modules/vue/dist/vue.js"></script>
     <script> if (typeof Vue == 'undefined') document.write('<script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.11/vue.js"></' + 'script>') </script>
     <script src="node_modules/three.js/build/three.js"></script>

@@ -1,14 +1,32 @@
+import troisMixin from '../mixins/trois'
+import memberMixin from '../mixins/member'
+import propsMixin from '../mixins/props'
+
 export default ({
   PerspectiveCamera
 }) => ({
-  template: '<slot></slot>',
-  props: {
-    fov: Number,
-    near: Number,
-    far: Number
+  mixins: [
+    troisMixin,
+    memberMixin(() => new PerspectiveCamera, '__troisCamera'),
+    propsMixin({
+      fov: Number,
+      near: Number,
+      aspect: Number,
+      far: Number
+    })
+  ],
+  compiled () {
+    this.updateProjectionMatrix()
   },
-  beforeCompile () {
-    const camera = new PerspectiveCamera(this.fov, 1, this.near, this.far)
-    this.__trois = { object3d: camera }
+  methods: {
+    updateProjectionMatrix () {
+      this.__trois.updateProjectionMatrix()
+    }
+  },
+  watch: {
+    fov: 'updateProjectionMatrix',
+    near: 'updateProjectionMatrix',
+    aspect: 'updateProjectionMatrix',
+    far: 'updateProjectionMatrix'
   }
 })

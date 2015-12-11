@@ -1,13 +1,12 @@
-import object3d from '../mixins/object3d'
+import troisMixin from '../mixins/trois'
+import childrenMixin from '../mixins/children'
+import propsMixin from '../mixins/props'
 
 export default ({
   Mesh
 }) => ({
-  template: '<slot></slot>',
-  mixins: [object3d],
-  beforeCompile () {
-    this.__trois = {
-      object3d: new Mesh()
-    }
-  }
+  mixins: [
+    troisMixin,
+    childrenMixin(() => new Mesh)
+  ]
 })
