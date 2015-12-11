@@ -11,22 +11,31 @@ export default ({
     propsMixin({
       fov: Number,
       near: Number,
-      aspect: Number,
       far: Number
     })
   ],
   compiled () {
-    this.updateProjectionMatrix()
+    this.setAspect(this.aspect)
+  },
+  computed: {
+    aspect () {
+      return this.$parent.width / this.$parent.height
+    }
   },
   methods: {
+    setAspect (aspect) {
+      this.__trois.aspect = aspect
+      this.updateProjectionMatrix()
+    },
     updateProjectionMatrix () {
       this.__trois.updateProjectionMatrix()
+      this.$dispatch('update')
     }
   },
   watch: {
     fov: 'updateProjectionMatrix',
     near: 'updateProjectionMatrix',
-    aspect: 'updateProjectionMatrix',
-    far: 'updateProjectionMatrix'
+    far: 'updateProjectionMatrix',
+    aspect: 'setAspect'
   }
 })

@@ -3,6 +3,20 @@ export default ({
   WebGLRenderer
 }) => ({
   template: '<canvas><slot></slot></canvas>',
+  data: () => ({
+    realWidth: 0,
+    realHeight: 0
+  }),
+  props: {
+    width: {
+      type: Number,
+      default: 640
+    },
+    height: {
+      type: Number,
+      default: 480
+    }
+  },
   beforeCompile () {
     this.__trois = new Scene()
     this.__troisRenderer = new WebGLRenderer({
@@ -10,6 +24,7 @@ export default ({
     })
   },
   attached () {
+    this.setSize()
     this.__troisWillRender = false
     this.render()
   },
@@ -22,7 +37,14 @@ export default ({
           this.__troisWillRender = false
         })
       }
+    },
+    setSize () {
+      this.__troisRenderer.setSize(this.width, this.height)
     }
+  },
+  watch: {
+    width: 'setSize',
+    height: 'setSize'
   },
   events: {
     update: 'render'

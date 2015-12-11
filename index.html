@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>html,body{margin:0;padding:0;}</style>
 </head>
 <body>
-    <trois-scene>
+    <trois-scene :full-screen="true">
         <trois-perspective-camera :fov="75" :aspect="1" :near="0.1" :far="1000">
             <trois-position :x="0" :y="0" :z="5"></trois-position>
         </trois-perspective-camera>
@@ -29,6 +30,7 @@
     <script src="trois.js"></script>
     <script> if (typeof Trois == 'undefined') document.write('<script src="dist/trois.js"></' + 'script>') </script>
     <script>
+        Vue.config.debug = true
         Vue.use(Trois, THREE)
         new Vue({
             el: document.body,
