@@ -5,6 +5,7 @@ import propsMixin from '../../mixins/props'
 export default ({
   PerspectiveCamera
 }) => ({
+  name: 'PerspectiveCamera',
   mixins: [
     troisMixin,
     memberMixin(() => new PerspectiveCamera(), '$troisCamera'),

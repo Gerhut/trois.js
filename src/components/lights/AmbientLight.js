@@ -7,6 +7,7 @@ export default ({
   AmbientLight,
   Color
 }) => ({
+  name: 'AmbientLight',
   mixins: [
     troisMixin,
     childrenMixin(() => new AmbientLight()),

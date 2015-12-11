@@ -8,6 +8,7 @@ export default ({
   MeshLambertMaterial,
   Color
 }) => ({
+  name: 'MeshLambertMaterial',
   mixins: [
     troisMixin,
     memberMixin(() => new MeshLambertMaterial(), 'material'),

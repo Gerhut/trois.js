@@ -7,6 +7,7 @@ export default ({
   DirectionalLight,
   Color
 }) => ({
+  name: 'DirectionalLight',
   mixins: [
     troisMixin,
     childrenMixin(() => new DirectionalLight()),

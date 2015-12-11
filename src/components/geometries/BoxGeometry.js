@@ -5,6 +5,7 @@ import disposeMixin from '../../mixins/dispose'
 export default ({
   BoxGeometry
 }) => ({
+  name: 'BoxGeometry',
   mixins: [
     troisMixin,
     memberMixin(() => new BoxGeometry(1, 1, 1), 'geometry'),

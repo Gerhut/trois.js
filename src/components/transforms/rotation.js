@@ -2,6 +2,7 @@ import troisMixin from '../../mixins/trois'
 import valuesMixin from '../../mixins/values'
 
 export default {
+  name: 'rotation',
   mixins: [
     troisMixin,
     valuesMixin('rotation', {

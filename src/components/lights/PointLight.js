@@ -7,6 +7,7 @@ export default ({
   PointLight,
   Color
 }) => ({
+  name: 'PointLight',
   mixins: [
     troisMixin,
     childrenMixin(() => new PointLight()),

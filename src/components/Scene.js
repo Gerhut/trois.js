@@ -2,6 +2,7 @@ export default ({
   Scene,
   WebGLRenderer
 }) => ({
+  name: 'Scene',
   template: '<canvas><slot></slot></canvas>',
   data: () => ({
     realWidth: 0,

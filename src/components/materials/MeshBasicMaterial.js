@@ -8,6 +8,7 @@ export default ({
   MeshBasicMaterial,
   Color
 }) => ({
+  name: 'MeshBasicMaterial',
   mixins: [
     troisMixin,
     memberMixin(() => new MeshBasicMaterial(), 'material'),
