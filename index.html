@@ -10,19 +10,18 @@
         <trois-perspective-camera :fov="75" :aspect="1" :near="0.1" :far="1000">
             <trois-position :x="0" :y="0" :z="5"></trois-position>
         </trois-perspective-camera>
+        <trois-point-light :color="light.color" v-for="light in lights" v-if="light.display">
+            <trois-position :x="light.pos[0]" :y="light.pos[1]" :z="light.pos[2]"></trois-position>
+        </trois-point-light>
         <trois-mesh>
             <trois-box-geometry :width="1" :height="1" :depth="1"></trois-box-geometry>
-            <trois-mesh-basic-material color="#00FF00"></trois-mesh-basic-material>
-            <trois-position :x="px" :y="py" :z="pz"></trois-position>
-            <trois-scale :x="sx" :y="sy" :z="sz"></trois-scale>
+            <trois-mesh-phong-material color="white"></trois-mesh-phong-material>
+            <trois-rotation :z="45" :x="45" :y="rotation" order="YXZ"></trois-rotation>
         </trois-mesh>
     </trois-scene>
-    <input type="number" v-model="px" number>
-    <input type="number" v-model="py" number>
-    <input type="number" v-model="pz" number>
-    <input type="number" v-model="sx" number>
-    <input type="number" v-model="sy" number>
-    <input type="number" v-model="sz" number>
+    <p>
+        <label v-for="light in lights"><input type="checkbox" v-model="light.display"><span>{{light.color}} light</span></label>
+    </p>
     <script src="node_modules/vue/dist/vue.js"></script>
     <script> if (typeof Vue == 'undefined') document.write('<script src="//cdnjs.cloudflare.com/ajax/libs/vue/1.0.11/vue.js"></' + 'script>') </script>
     <script src="node_modules/three.js/build/three.js"></script>
@@ -35,8 +34,23 @@
         new Vue({
             el: document.body,
             data: {
-                px: 0, py: 0, pz: 0,
-                sx: 1, sy: 1, sz: 1
+                rotation: 0,
+                lights: [{
+                    color: 'red', pos: [0, 2, 0], display: true
+                }, {
+                    color: 'green', pos: [0, -2, 0], display: false
+                }, {
+                    color: 'blue', pos: [2, 0, 0], display: false
+                }, {
+                    color: 'yellow', pos: [-2, 0, 0], display: false
+                }]
+            },
+            ready: function () {
+                var frame = function() {
+                    this.rotation += 3
+                    requestAnimationFrame(frame)
+                }.bind(this)
+                requestAnimationFrame(frame)
             }
         })
     </script>

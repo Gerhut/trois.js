@@ -1,6 +1,6 @@
-import troisMixin from '../mixins/trois'
-import memberMixin from '../mixins/member'
-import propsMixin from '../mixins/props'
+import troisMixin from '../../mixins/trois'
+import memberMixin from '../../mixins/member'
+import propsMixin from '../../mixins/props'
 
 export default ({
   PerspectiveCamera

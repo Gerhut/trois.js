@@ -7,14 +7,16 @@ export default props => {
     beforeCompile () {
       propNames.forEach(propName => {
         const propValue = this[propName]
-        const wrapper = props[propName] && props[propName].wrapper
-        this.__trois[propName] = wrapper ? wrapper(propValue) : propValue
+        if (propValue != null) {
+          const wrapper = props[propName] && props[propName].__troisWrapper
+          this.__trois[propName] = wrapper ? wrapper(propValue) : propValue
+        }
       })
     }
   }
 
   propNames.forEach(propName => {
-    const wrapper = props[propName] && props[propName].wrapper
+    const wrapper = props[propName] && props[propName].__troisWrapper
     mixin.watch[propName] = wrapper
       ? function (propValue) {
         this.__trois[propName] = wrapper(propValue)
