@@ -21,26 +21,45 @@ import materialCache from './plugins/materialCache'
 
 export var version = '0.0.0'
 
-export function install (Vue, THREE) {
+export function install (Vue, {
+  THREE,
+  prefix = false
+}) {
 
   Vue.use(materialCache)
 
-  Vue.component('trois-scene', Scene(THREE))
-  Vue.component('trois-mesh', Mesh(THREE))
+  switch (prefix) {
 
-  Vue.component('trois-perspective-camera', PerspectiveCamera(THREE))
+    case true:
+      prefix = 'trois-'
+    break
 
-  Vue.component('trois-ambient-light', AmbientLight(THREE))
-  Vue.component('trois-directional-light', DirectionalLight(THREE))
-  Vue.component('trois-point-light', PointLight(THREE))
+    case false:
+      prefix = ''
+    break
 
-  Vue.component('trois-box-geometry', BoxGeometry(THREE))
+    default:
+      if (prefix[prefix.length - 1] !== '-') {
+        prefix += '-'
+      }
+  }
 
-  Vue.component('trois-mesh-basic-material', MeshBasicMaterial(THREE))
-  Vue.component('trois-mesh-lambert-material', MeshLambertMaterial(THREE))
-  Vue.component('trois-mesh-phong-material', MeshPhongMaterial(THREE))
+  Vue.component(`${prefix}scene`, Scene(THREE))
+  Vue.component(`${prefix}mesh`, Mesh(THREE))
 
-  Vue.component('trois-position', position)
-  Vue.component('trois-rotation', rotation)
-  Vue.component('trois-scale', scale)
+  Vue.component(`${prefix}perspective-camera`, PerspectiveCamera(THREE))
+
+  Vue.component(`${prefix}ambient-light`, AmbientLight(THREE))
+  Vue.component(`${prefix}directional-light`, DirectionalLight(THREE))
+  Vue.component(`${prefix}point-light`, PointLight(THREE))
+
+  Vue.component(`${prefix}box-geometry`, BoxGeometry(THREE))
+
+  Vue.component(`${prefix}mesh-basic-material`, MeshBasicMaterial(THREE))
+  Vue.component(`${prefix}mesh-lambert-material`, MeshLambertMaterial(THREE))
+  Vue.component(`${prefix}mesh-phong-material`, MeshPhongMaterial(THREE))
+
+  Vue.component(`${prefix}position`, position)
+  Vue.component(`${prefix}rotation`, rotation)
+  Vue.component(`${prefix}scale`, scale)
 }

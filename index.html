@@ -6,19 +6,19 @@
     <style>html,body{margin:0;padding:0;}</style>
 </head>
 <body>
-    <trois-scene :full-screen="true">
-        <trois-perspective-camera :fov="75" :aspect="1" :near="0.1" :far="1000">
-            <trois-position :x="0" :y="0" :z="5"></trois-position>
-        </trois-perspective-camera>
-        <trois-point-light :color="light.color" v-for="light in lights" v-if="light.display">
-            <trois-position :x="light.pos[0]" :y="light.pos[1]" :z="light.pos[2]"></trois-position>
-        </trois-point-light>
-        <trois-mesh>
-            <trois-box-geometry :width="1" :height="1" :depth="1"></trois-box-geometry>
-            <trois-mesh-phong-material color="white"></trois-mesh-phong-material>
-            <trois-rotation :z="45" :x="45" :y="rotation" order="YXZ"></trois-rotation>
-        </trois-mesh>
-    </trois-scene>
+    <scene>
+        <perspective-camera :fov="75" :aspect="1" :near="0.1" :far="1000">
+            <position :x="0" :y="0" :z="5"></position>
+        </perspective-camera>
+        <point-light :color="light.color" v-for="light in lights" v-if="light.display">
+            <position :x="light.pos[0]" :y="light.pos[1]" :z="light.pos[2]"></position>
+        </point-light>
+        <mesh>
+            <box-geometry :width="1" :height="1" :depth="1"></box-geometry>
+            <mesh-phong-material color="white"></mesh-phong-material>
+            <rotation :z="45" :x="45" :y="rotation" order="YXZ"></rotation>
+        </mesh>
+    </scene>
     <p>
         <label v-for="light in lights"><input type="checkbox" v-model="light.display"><span>{{light.color}} light</span></label>
     </p>
@@ -30,7 +30,10 @@
     <script> if (typeof Trois == 'undefined') document.write('<script src="dist/trois.js"></' + 'script>') </script>
     <script>
         Vue.config.debug = true
-        Vue.use(Trois, THREE)
+        Vue.use(Trois, {
+            THREE: THREE,
+            prefix: false
+        })
         new Vue({
             el: document.body,
             data: {
