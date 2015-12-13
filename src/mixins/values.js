@@ -1,4 +1,4 @@
-export default (name, props) => {
+export default (name, props, transformers = {}) => {
   const propNames = Array.isArray(props) ? props : Object.keys(props)
 
   const mixin = {
@@ -6,12 +6,12 @@ export default (name, props) => {
     watch: {},
     attached () {
       propNames.forEach(propName => {
-        let propValue = this[propName]
+        const propValue = this[propName]
         if (propValue != null) {
-          if (props[propName] && props[propName]._troisTransformer) {
-            propValue = props[propName]._troisTransformer(propValue)
-          }
-          this.$parent.$trois[name][propName] = propValue
+          const transformer = transformers[propName]
+          this.$parent.$trois[name][propName] = transformer
+            ? transformer(propValue)
+            : propValue
           this.$dispatch('update')
         }
       })
@@ -19,7 +19,7 @@ export default (name, props) => {
   }
 
   propNames.forEach(propName => {
-    const transformer = props[propName] && props[propName]._troisTransformer
+    const transformer = transformers[propName]
     mixin.watch[propName] = transformer
       ? function (propValue) {
         this.$parent.$trois[name][propName] = transformer(propValue)

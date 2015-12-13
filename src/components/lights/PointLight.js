@@ -14,12 +14,14 @@ export default ({
     constructorMixin(PointLight),
     childrenMixin,
     propsMixin({
-      color: {
-        _troisTransformer: color => new Color(color)
-      },
+      color: {},
       intensity: Number,
       distance: Number,
       decay: Number
+    }, {
+      color(value) {
+        return new Color(value)
+      }
     }),
     lightMixin
   ]

@@ -14,10 +14,12 @@ export default ({
     constructorMixin(DirectionalLight),
     childrenMixin,
     propsMixin({
-      color: {
-        _troisTransformer: color => new Color(color)
-      },
+      color: {},
       intensity: Number
+    }, {
+      color(value) {
+        return new Color(value)
+      }
     }),
     lightMixin
   ]

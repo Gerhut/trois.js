@@ -13,9 +13,9 @@ export default ({
     troisMixin,
     constructorMixin(AmbientLight),
     childrenMixin,
-    propsMixin({
-      color: {
-        _troisTransformer: color => new Color(color)
+    propsMixin(['color'], {
+      color(value) {
+        return new Color(value)
       }
     }),
     lightMixin
