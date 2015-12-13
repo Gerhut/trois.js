@@ -167,6 +167,8 @@
   })
 
   var propsMixin = (function (props) {
+    var transformers = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
     var propNames = Array.isArray(props) ? props : Object.keys(props);
 
     var mixin = {
@@ -178,7 +180,7 @@
         propNames.forEach(function (propName) {
           var propValue = _this[propName];
           if (propValue != null) {
-            var transformer = props[propName] && props[propName]._troisTransformer;
+            var transformer = transformers[propName];
             _this.$trois[propName] = transformer ? transformer(propValue) : propValue;
           }
         });
@@ -186,7 +188,7 @@
     };
 
     propNames.forEach(function (propName) {
-      var transformer = props[propName] && props[propName]._troisTransformer;
+      var transformer = transformers[propName];
       mixin.watch[propName] = transformer ? function (propValue) {
         this.$trois[propName] = transformer(propValue);
         this.$dispatch('update');
@@ -250,11 +252,9 @@
     var Color = _ref.Color;
     return {
       name: 'AmbientLight',
-      mixins: [troisMixin, constructorMixin(AmbientLight), childrenMixin, propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
+      mixins: [troisMixin, constructorMixin(AmbientLight), childrenMixin, propsMixin(['color'], {
+        color: function color(value) {
+          return new Color(value);
         }
       }), lightMixin]
     };
@@ -266,12 +266,12 @@
     return {
       name: 'DirectionalLight',
       mixins: [troisMixin, constructorMixin(DirectionalLight), childrenMixin, propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
-        },
+        color: {},
         intensity: Number
+      }, {
+        color: function color(value) {
+          return new Color(value);
+        }
       }), lightMixin]
     };
   })
@@ -282,14 +282,14 @@
     return {
       name: 'PointLight',
       mixins: [troisMixin, constructorMixin(PointLight), childrenMixin, propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
-        },
+        color: {},
         intensity: Number,
         distance: Number,
         decay: Number
+      }, {
+        color: function color(value) {
+          return new Color(value);
+        }
       }), lightMixin]
     };
   })
@@ -332,11 +332,9 @@
     var Color = _ref.Color;
     return {
       name: 'MeshBasicMaterial',
-      mixins: [troisMixin, constructorMixin(MeshBasicMaterial), memberMixin('material'), propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
+      mixins: [troisMixin, constructorMixin(MeshBasicMaterial), memberMixin('material'), propsMixin(['color'], {
+        color: function color(value) {
+          return new Color(value);
         }
       }), disposeMixin, materialMixin]
     };
@@ -347,11 +345,9 @@
     var Color = _ref.Color;
     return {
       name: 'MeshLambertMaterial',
-      mixins: [troisMixin, constructorMixin(MeshLambertMaterial), memberMixin('material'), propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
+      mixins: [troisMixin, constructorMixin(MeshLambertMaterial), memberMixin('material'), propsMixin(['color'], {
+        color: function color(value) {
+          return new Color(value);
         }
       }), disposeMixin, materialMixin]
     };
@@ -362,17 +358,17 @@
     var Color = _ref.Color;
     return {
       name: 'MeshPhongMaterial',
-      mixins: [troisMixin, constructorMixin(MeshPhongMaterial), memberMixin('material'), propsMixin({
-        color: {
-          _troisTransformer: function _troisTransformer(color) {
-            return new Color(color);
-          }
+      mixins: [troisMixin, constructorMixin(MeshPhongMaterial), memberMixin('material'), propsMixin(['color'], {
+        color: function color(value) {
+          return new Color(value);
         }
       }), disposeMixin, materialMixin]
     };
   })
 
   var valuesMixin = (function (name, props) {
+    var transformers = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     var propNames = Array.isArray(props) ? props : Object.keys(props);
 
     var mixin = {
@@ -384,10 +380,8 @@
         propNames.forEach(function (propName) {
           var propValue = _this[propName];
           if (propValue != null) {
-            if (props[propName] && props[propName]._troisTransformer) {
-              propValue = props[propName]._troisTransformer(propValue);
-            }
-            _this.$parent.$trois[name][propName] = propValue;
+            var transformer = transformers[propName];
+            _this.$parent.$trois[name][propName] = transformer ? transformer(propValue) : propValue;
             _this.$dispatch('update');
           }
         });
@@ -395,7 +389,7 @@
     };
 
     propNames.forEach(function (propName) {
-      var transformer = props[propName] && props[propName]._troisTransformer;
+      var transformer = transformers[propName];
       mixin.watch[propName] = transformer ? function (propValue) {
         this.$parent.$trois[name][propName] = transformer(propValue);
         this.$dispatch('update');
@@ -417,28 +411,21 @@
     })]
   };
 
+  var deg2rad = function deg2rad(rad) {
+    return rad * Math.PI / 180;
+  };
+
   var rotation = {
     name: 'rotation',
     mixins: [troisMixin, valuesMixin('rotation', {
-      x: {
-        type: Number,
-        _troisTransformer: function _troisTransformer(rad) {
-          return rad / 180 * Math.PI;
-        }
-      },
-      y: {
-        type: Number,
-        _troisTransformer: function _troisTransformer(rad) {
-          return rad / 180 * Math.PI;
-        }
-      },
-      z: {
-        type: Number,
-        _troisTransformer: function _troisTransformer(rad) {
-          return rad / 180 * Math.PI;
-        }
-      },
+      x: Number,
+      y: Number,
+      z: Number,
       order: String
+    }, {
+      x: deg2rad,
+      y: deg2rad,
+      z: deg2rad
     })]
   };
 
@@ -453,17 +440,17 @@
 
   var materialCache = {
     install: function install(Vue) {
+      Vue._troisMaterialCache = {};
       Object.assign(Vue.prototype, {
-        _troisMaterialCache: {},
         _troisMaterialCacheAdd: function _troisMaterialCacheAdd() {
-          this._troisMaterialCache[this._uid] = this;
+          Vue._troisMaterialCache[this._uid] = this;
         },
         _troisMaterialCacheRemove: function _troisMaterialCacheRemove() {
-          delete this._troisMaterialCache[this._uid];
+          delete Vue._troisMaterialCache[this._uid];
         },
         _troisMaterialCacheUpdate: function _troisMaterialCacheUpdate() {
-          for (var uid in this._troisMaterialCache) {
-            this._troisMaterialCache[uid].$trois.needsUpdate = true;
+          for (var uid in Vue._troisMaterialCache) {
+            Vue._troisMaterialCache[uid].$trois.needsUpdate = true;
           }
         }
       });
