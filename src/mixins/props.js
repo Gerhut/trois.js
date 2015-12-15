@@ -4,16 +4,18 @@ export default (props, transformers = {}) => {
   const mixin = {
     props,
     watch: {},
-    compiled () {
-      propNames.forEach(propName => {
-        const propValue = this[propName]
-        if (propValue != null) {
-          const transformer = transformers[propName]
-          this.$trois[propName] = transformer
-            ? transformer(propValue)
-            : propValue
-        }
-      })
+    created () {
+      this._troisApplyProps = () => {
+        propNames.forEach(propName => {
+          const propValue = this[propName]
+          if (propValue != null) {
+            const transformer = transformers[propName]
+            this.$trois[propName] = transformer
+              ? transformer(propValue)
+              : propValue
+          }
+        })
+      }
     }
   }
 

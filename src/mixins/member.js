@@ -1,8 +1,8 @@
-export default propName => ({
+export default name => ({
   attached () {
-    this.$parent.$trois[propName] = this.$trois
+    this.$parent.$trois[name] = this.$trois
   },
   detached () {
-    this.$parent.$trois[propName] = null
+    this.$parent.$trois[name] = null
   }
 })
