@@ -6,11 +6,5 @@ export default {
   detached () {
     this.$parent.$trois.remove(this.$trois)
     this.$dispatch('update')
-  },
-  events: {
-    replace (oldTrois) {
-      this.$parent.$trois.remove(oldTrois)
-      this.$parent.$troid.add(this.$trois)
-    }
   }
 }

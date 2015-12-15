@@ -4,10 +4,5 @@ export default propName => ({
   },
   detached () {
     this.$parent.$trois[propName] = null
-  },
-  events: {
-    replace () {
-      this.$parent.$trois[propName] = this.$trois
-    }
   }
 })

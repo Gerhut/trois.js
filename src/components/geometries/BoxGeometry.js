@@ -9,11 +9,7 @@ export default ({
   name: 'BoxGeometry',
   mixins: [
     troisMixin,
-    constructorMixin(BoxGeometry, {
-      width: { type: Number, default: 1 },
-      height: { type: Number, default: 1 },
-      depth: { type: Number, default: 1 }
-    }, ['width', 'height', 'depth']),
+    constructorMixin(BoxGeometry, [1, 1, 1]),
     memberMixin('geometry'),
     disposeMixin
   ]
