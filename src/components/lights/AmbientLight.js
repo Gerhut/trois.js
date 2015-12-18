@@ -14,7 +14,7 @@ export default ({
     constructorMixin(AmbientLight),
     childrenMixin,
     propsMixin(['color'], {
-      color(value) {
+      color (value) {
         return new Color(value)
       }
     }),

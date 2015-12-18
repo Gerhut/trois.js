@@ -19,7 +19,7 @@ export default ({
       distance: Number,
       decay: Number
     }, {
-      color(value) {
+      color (value) {
         return new Color(value)
       }
     }),

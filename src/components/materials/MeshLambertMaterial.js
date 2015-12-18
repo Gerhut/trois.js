@@ -15,7 +15,7 @@ export default ({
     constructorMixin(MeshLambertMaterial),
     memberMixin('material'),
     propsMixin(['color'], {
-      color(value) {
+      color (value) {
         return new Color(value)
       }
     }),

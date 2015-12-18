@@ -17,7 +17,7 @@ export default ({
       color: {},
       intensity: Number
     }, {
-      color(value) {
+      color (value) {
         return new Color(value)
       }
     }),
